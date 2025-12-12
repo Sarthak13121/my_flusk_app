@@ -19,16 +19,16 @@
         </aside>
 
         <main class="main-content-wrapper">
-            
             <header class="header">
                 <h1 id="page-title">Dashboard</h1>
                 <div class="user-info">Welcome, User</div>
             </header>
 
             <section class="content-area">
+                
                 <div id="dashboard-content" class="page-content active">
                     <h2>Quick Stats</h2>
-                    <div class="stats-grid">
+                    <div class="dashboard-cards"> 
                         <div class="stat-card"><h3>120</h3><p>Total Clients</p></div>
                         <div class="stat-card"><h3>15</h3><p>Tasks Due</p></div>
                         <div class="stat-card"><h3>$5k</h3><p>Revenue (Mo)</p></div>
@@ -36,16 +36,89 @@
                 </div>
 
                 <div id="clients-content" class="page-content">
-                    <h2>Client List</h2>
-                    <p>Client data will be dynamically loaded here (e.g., from a Python backend).</p>
-                </div>
+    <div class="header-tools" style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Client List</h2>
+        <button id="add-client-btn" class="whatsapp-btn" style="background-color: #007bff;">+ Add New Client</button>
+    </div>
+
+    <div id="add-client-form-area" class="settings-form-wrapper" style="display:none; margin-bottom: 20px;">
+        <h3>Add New Client</h3>
+        <label for="new-client-name">Client Name:</label>
+        <input type="text" id="new-client-name" required>
+
+        <label for="new-client-phone">Phone Number:</label>
+        <input type="text" id="new-client-phone" placeholder="e.g., +919999900000">
+
+        <label for="new-client-status">Status:</label>
+        <select id="new-client-status">
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+
+        <button id="save-new-client-btn" class="whatsapp-btn">Save Client</button>
+        <button id="cancel-add-client" class="whatsapp-btn" style="background-color: #6c757d;">Cancel</button>
+    </div>
+
+    <div id="client-list-display">
+        <p>Client data will be dynamically loaded here.</p>
+    </div>
+</div>
                 
-                <div id="tasks-content" class="page-content">
-                    <h2>Task Manager</h2>
-                    <p>Task data and management tools here.</p>
+             <div id="tasks-content" class="page-content">
+    <div class="header-tools" style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Task Manager</h2>
+        <button id="add-task-btn" class="whatsapp-btn" style="background-color: #007bff;">+ Add New Task</button>
+    </div>
+
+    <div id="add-task-form-area" class="settings-form-wrapper" style="display:none; margin-bottom: 20px;">
+        <h3>Add New Task</h3>
+        <label for="new-task-name">Task Name:</label>
+        <input type="text" id="new-task-name" required>
+
+        <label for="new-task-due-date">Due Date:</label>
+        <input type="date" id="new-task-due-date">
+
+        <label for="new-task-priority">Priority:</label>
+        <select id="new-task-priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+        
+        <label for="new-task-assigned-to">Assigned To:</label>
+        <input type="text" id="new-task-assigned-to" value="User">
+
+        <button id="save-task-btn" class="whatsapp-btn">Save Task</button>
+        <button id="cancel-add-task" class="whatsapp-btn" style="background-color: #6c757d;">Cancel</button>
+    </div>
+
+    <div id="task-list-display">
+        <p>Task data will be dynamically loaded here.</p>
+    </div>
+</div>
+
+                <div id="settings-content" class="page-content">
+                    <h2>User Settings</h2>
+                    <div class="settings-form-wrapper">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" value="Welcome, User">
+
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" value="user@example.com">
+                        
+                        <label for="theme">Theme:</label>
+                        <select id="theme">
+                            <option value="dark">Dark (Default)</option>
+                            <option value="light">Light</option>
+                        </select>
+                        
+                        <button id="save-settings" class="whatsapp-btn">Save Changes</button>
+                        <p style="margin-top: 20px;">*This page is currently for demonstration. Full logic to update a database would be required here.</p>
+                    </div>
                 </div>
-                
-                </section>
+
+            </section>
         </main>
     </div>
 
