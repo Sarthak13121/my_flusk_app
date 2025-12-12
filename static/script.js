@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // STATE VARIABLES
     let currentClientId = null;
-    let currentTaskId = null; // CRITICAL: Task state variable
+    let currentTaskId = null;
 
     // ======================================================================
     // 2. SUPPORT & HELPER FUNCTIONS - CLIENTS
