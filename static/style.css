@@ -300,3 +300,23 @@ body {
     border-radius: 4px;
     font-weight: bold;
 }
+/* Add this to static/style.css */
+.user-info-group {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Spacing between Welcome and Logout */
+}
+
+.logout-link {
+    color: #dc3545; /* Red color for visual prominence */
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 5px 10px;
+    border: 1px solid #dc3545;
+    border-radius: 4px;
+}
+
+.logout-link:hover {
+    background-color: #dc3545;
+    color: white;
+}

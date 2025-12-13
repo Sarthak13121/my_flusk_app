@@ -13,21 +13,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // ======================================================================
     // 2. SUPPORT & HELPER FUNCTIONS - CLIENTS
     // ======================================================================
-    
-    // --- 2a. WhatsApp Handler (Click-to-Chat) ---
+     
+    // --- 2a. WhatsApp Handler (Server-Side API Call) ---
     function handleWhatsAppClick(e) {
-        const phone = e.target.getAttribute('data-phone');
+        // The phone number is extracted here, removing the leading '+' if present
+        const phone = e.target.getAttribute('data-phone').replace('+', ''); 
         const name = e.target.getAttribute('data-name');
-        const message = prompt(`Enter message for ${name}:`); 
+        
+        const message = prompt(`Enter message for ${name} (sends via API):`); 
 
-        if (message) {
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
-            window.open(whatsappUrl, '_blank'); 
-            alert(`Opening WhatsApp chat for ${name}.`);
-        } else {
+        if (!message) {
             alert("Message sending cancelled.");
+            return;
         }
+        
+        alert(`Sending message to ${name}...`);
+
+        fetch('/api/send_whatsapp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone: phone, message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(`SUCCESS: ${data.message}`);
+            } else {
+                alert(`ERROR sending message: ${data.message}`);
+            }
+        })
+        .catch(error => {
+            console.error('API Send Error:', error);
+            alert('CRITICAL ERROR: Could not reach the server or WhatsApp API.');
+        });
     }
 
     // --- 2b. Client Form Toggler ---
@@ -212,9 +230,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     // ======================================================================
-    // 4. DATA FETCHING FUNCTION: CLIENTS (CRUD Read)
+    // 4. DATA FETCHING FUNCTION: DASHBOARD STATS (NEW!)
+    // ======================================================================
+    function fetchAndRenderDashboard() {
+        fetch('/api/stats')
+            .then(response => {
+                if (!response.ok) throw new Error('Could not fetch dashboard statistics');
+                return response.json();
+            })
+            .then(data => {
+                const statsContainer = document.getElementById('dashboard-content'); 
+                
+                let html = `
+                    <h2>Quick Stats</h2>
+                    <div class="dashboard-cards"> 
+                        <div class="stat-card">
+                            <h3>${data.total_clients}</h3>
+                            <p>Total Clients</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>${data.pending_clients}</h3>
+                            <p>Pending Clients</p>
+                        </div>
+                        <div class="stat-card stat-card-highlight">
+                            <h3>${data.total_tasks}</h3>
+                            <p>Total Tasks</p>
+                        </div>
+                        <div class="stat-card stat-card-alert">
+                            <h3>${data.high_priority_tasks}</h3>
+                            <p>High Priority Tasks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-alerts">
+                        ${data.high_priority_tasks > 0 ? 
+                            `<p class="alert-message">🚨 **ACTION REQUIRED:** You have ${data.high_priority_tasks} high priority task(s) due soon!</p>` :
+                            `<p class="success-message">✅ All priority tasks are up-to-date.</p>`
+                        }
+                    </div>
+                `;
+
+                statsContainer.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching dashboard stats:', error);
+                document.getElementById('dashboard-content').innerHTML = `<h2>Error</h2><p>Could not load statistics.</p>`;
+            });
+    }
+    
+    // ======================================================================
+    // 5. DATA FETCHING FUNCTION: CLIENTS (CRUD Read)
     // ======================================================================
     function fetchAndRenderClients() {
         fetch('/api/clients')
@@ -268,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
     // ======================================================================
-    // 5. DATA FETCHING FUNCTION: TASKS (CRUD Read)
+    // 6. DATA FETCHING FUNCTION: TASKS (CRUD Read)
     // ======================================================================
     function fetchAndRenderTasks() {
         fetch('/api/tasks')
@@ -318,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ======================================================================
-    // 6. NAVIGATION FUNCTION
+    // 7. NAVIGATION FUNCTION
     // ======================================================================
     function switchPage(pageName) {
         pageTitle.textContent = pageName.charAt(0).toUpperCase() + pageName.slice(1);
@@ -331,7 +397,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (item.getAttribute('data-page') === pageName) item.classList.add('active');
         });
         
-        if (pageName === 'clients') {
+        // CRITICAL: Call the correct data function based on the page
+        if (pageName === 'dashboard') {
+            fetchAndRenderDashboard(); // <-- New function called here
+        } else if (pageName === 'clients') {
             fetchAndRenderClients(); 
         } else if (pageName === 'tasks') {
             fetchAndRenderTasks();
@@ -342,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ======================================================================
-    // 7. INITIALIZATION & EVENT LISTENERS
+    // 8. INITIALIZATION & EVENT LISTENERS
     // ======================================================================
     
     // --- Navigation Listeners ---
@@ -397,6 +466,44 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Settings saved successfully! (Data not permanently stored in this version)");
             
             document.querySelector('.user-info').textContent = `Welcome, ${newUsername}`;
+        });
+    }
+    
+    // --- User Creation Listener (NEW) ---
+    const createUserBtn = document.getElementById('create-user-btn');
+    if (createUserBtn) {
+        createUserBtn.addEventListener('click', () => {
+            const username = document.getElementById('new-username').value;
+            const password = document.getElementById('new-password').value;
+            const statusElement = document.getElementById('user-creation-status');
+
+            if (!username || !password) {
+                statusElement.textContent = "Please fill out both username and password.";
+                statusElement.style.color = 'red';
+                return;
+            }
+
+            fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusElement.textContent = data.message;
+                statusElement.style.color = data.status === 'success' ? 'green' : 'red';
+                
+                // Clear inputs on success
+                if (data.status === 'success') {
+                    document.getElementById('new-username').value = '';
+                    document.getElementById('new-password').value = '';
+                }
+            })
+            .catch(error => {
+                console.error('User creation failed:', error);
+                statusElement.textContent = 'Network error or server unreachable.';
+                statusElement.style.color = 'red';
+            });
         });
     }
 

@@ -21,7 +21,10 @@
         <main class="main-content-wrapper">
             <header class="header">
                 <h1 id="page-title">Dashboard</h1>
-                <div class="user-info">Welcome, User</div>
+                <div class="user-info-group">
+                    <span class="user-info">Welcome, {{ username }}</span>
+                    <a href="{{ url_for('logout') }}" class="logout-link">Logout</a> 
+                </div>
             </header>
 
             <section class="content-area">
@@ -36,73 +39,89 @@
                 </div>
 
                 <div id="clients-content" class="page-content">
-    <div class="header-tools" style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>Client List</h2>
-        <button id="add-client-btn" class="whatsapp-btn" style="background-color: #007bff;">+ Add New Client</button>
-    </div>
+                    <div class="header-tools" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2>Client List</h2>
+                        <button id="add-client-btn" class="whatsapp-btn" style="background-color: #007bff;">+ Add New Client</button>
+                    </div>
 
-    <div id="add-client-form-area" class="settings-form-wrapper" style="display:none; margin-bottom: 20px;">
-        <h3>Add New Client</h3>
-        <label for="new-client-name">Client Name:</label>
-        <input type="text" id="new-client-name" required>
+                    <div id="add-client-form-area" class="settings-form-wrapper" style="display:none; margin-bottom: 20px;">
+                        <h3>Add New Client</h3>
+                        <label for="new-client-name">Client Name:</label>
+                        <input type="text" id="new-client-name" required>
 
-        <label for="new-client-phone">Phone Number:</label>
-        <input type="text" id="new-client-phone" placeholder="e.g., +919999900000">
+                        <label for="new-client-phone">Phone Number:</label>
+                        <input type="text" id="new-client-phone" placeholder="e.g., +919999900000">
 
-        <label for="new-client-status">Status:</label>
-        <select id="new-client-status">
-            <option value="Active">Active</option>
-            <option value="Pending">Pending</option>
-            <option value="Inactive">Inactive</option>
-        </select>
+                        <label for="new-client-status">Status:</label>
+                        <select id="new-client-status">
+                            <option value="Active">Active</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
 
-        <button id="save-new-client-btn" class="whatsapp-btn">Save Client</button>
-        <button id="cancel-add-client" class="whatsapp-btn" style="background-color: #6c757d;">Cancel</button>
-    </div>
+                        <button id="save-new-client-btn" class="whatsapp-btn">Save Client</button>
+                        <button id="cancel-add-client" class="whatsapp-btn" style="background-color: #6c757d;">Cancel</button>
+                    </div>
 
-    <div id="client-list-display">
-        <p>Client data will be dynamically loaded here.</p>
-    </div>
-</div>
+                    <div id="client-list-display">
+                        <p>Client data will be dynamically loaded here.</p>
+                    </div>
+                </div>
                 
-             <div id="tasks-content" class="page-content">
-    <div class="header-tools" style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>Task Manager</h2>
-        <button id="add-task-btn" class="whatsapp-btn" style="background-color: #007bff;">+ Add New Task</button>
-    </div>
+                <div id="tasks-content" class="page-content">
+                    <div class="header-tools" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2>Task Manager</h2>
+                        <button id="add-task-btn" class="whatsapp-btn" style="background-color: #007bff;">+ Add New Task</button>
+                    </div>
 
-    <div id="add-task-form-area" class="settings-form-wrapper" style="display:none; margin-bottom: 20px;">
-        <h3>Add New Task</h3>
-        <label for="new-task-name">Task Name:</label>
-        <input type="text" id="new-task-name" required>
+                    <div id="add-task-form-area" class="settings-form-wrapper" style="display:none; margin-bottom: 20px;">
+                        <h3>Add New Task</h3>
+                        <label for="new-task-name">Task Name:</label>
+                        <input type="text" id="new-task-name" required>
 
-        <label for="new-task-due-date">Due Date:</label>
-        <input type="date" id="new-task-due-date">
+                        <label for="new-task-due-date">Due Date:</label>
+                        <input type="date" id="new-task-due-date">
 
-        <label for="new-task-priority">Priority:</label>
-        <select id="new-task-priority">
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-        </select>
-        
-        <label for="new-task-assigned-to">Assigned To:</label>
-        <input type="text" id="new-task-assigned-to" value="User">
+                        <label for="new-task-priority">Priority:</label>
+                        <select id="new-task-priority">
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                        
+                        <label for="new-task-assigned-to">Assigned To:</label>
+                        <input type="text" id="new-task-assigned-to" value="User">
 
-        <button id="save-task-btn" class="whatsapp-btn">Save Task</button>
-        <button id="cancel-add-task" class="whatsapp-btn" style="background-color: #6c757d;">Cancel</button>
-    </div>
+                        <button id="save-task-btn" class="whatsapp-btn">Save Task</button>
+                        <button id="cancel-add-task" class="whatsapp-btn" style="background-color: #6c757d;">Cancel</button>
+                    </div>
 
-    <div id="task-list-display">
-        <p>Task data will be dynamically loaded here.</p>
-    </div>
-</div>
+                    <div id="task-list-display">
+                        <p>Task data will be dynamically loaded here.</p>
+                    </div>
+                </div>
 
                 <div id="settings-content" class="page-content">
-                    <h2>User Settings</h2>
+                    
+                    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                    <div class="settings-form-wrapper" style="border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px;">
+                        <h2>User Management (Admin)</h2>
+                        <h3>Create New User Account</h3>
+                        <label for="new-username">New Username:</label>
+                        <input type="text" id="new-username" required>
+
+                        <label for="new-password">Password:</label>
+                        <input type="password" id="new-password" required>
+
+                        <button id="create-user-btn" class="whatsapp-btn" style="background-color: #28a745;">Create User</button>
+                        <p id="user-creation-status" style="margin-top: 10px;"></p>
+                    </div>
+                    {% endif %} 
+                    
+                    <h2>My Personal Settings</h2>
                     <div class="settings-form-wrapper">
                         <label for="username">Username:</label>
-                        <input type="text" id="username" value="Welcome, User">
+                        <input type="text" id="username" value="Welcome, {{ username }}"> 
 
                         <label for="email">Email:</label>
                         <input type="email" id="email" value="user@example.com">
@@ -114,14 +133,11 @@
                         </select>
                         
                         <button id="save-settings" class="whatsapp-btn">Save Changes</button>
-                        <p style="margin-top: 20px;">*This page is currently for demonstration. Full logic to update a database would be required here.</p>
+                        <p style="margin-top: 20px;">*The personal settings area is for demonstration.</p>
                     </div>
-                </div>
 
-            </section>
+                </div> </section>
         </main>
-    </div>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    </div> <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
