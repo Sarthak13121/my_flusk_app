@@ -31,13 +31,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # --- WHATSAPP API CONFIGURATION (Secure Loading) ---
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', 'AC5db571bb528a49a6d02928f61d3f0a88') 
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', '4104b5b668211b37af85475120bda421') 
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', 'abfba41e43ab503891d7ab3e2744a485') 
 WHATSAPP_SENDER = os.environ.get('WHATSAPP_SENDER', 'whatsapp:+14155238886')
 
 # --- GLOBAL CONFIGURATION (E1 FIX) ---
 # IMPORTANT: This must be a global variable accessible to the send_invoice_whatsapp function.
 # You MUST replace this with your actual ngrok or production URL when testing file sending.
-PUBLIC_BASE_URL = os.environ.get('PUBLIC_BASE_URL', "http://YOUR_NGROK_URL_OR_SERVER_IP")
+PUBLIC_BASE_URL = os.environ.get('PUBLIC_BASE_URL', "https://ngrok.com/r/http-request")
 
 
 db = SQLAlchemy(app)

@@ -8,7 +8,7 @@ import os
 
 # Your hard-coded Account SID and Auth Token from your last message
 ACCOUNT_SID = 'AC5db571bb528a49a6d02928f61d3f0a88'
-AUTH_TOKEN = '4104b5b668211b37af85475120bda421'
+AUTH_TOKEN = 'abfba41e43ab503891d7ab3e2744a485'
 
 # The Twilio Sandbox number from your last message (FROM)
 WHATSAPP_SENDER = 'whatsapp:+14155238886'
